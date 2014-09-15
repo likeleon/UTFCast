@@ -64,6 +64,7 @@ namespace UTFCast
         public ICommand StartStopCommand { get; private set; }
 
         public string Directory { get; set; }
+        public string FilePattern { get; set; }
         public bool Recursive { get; set; }
         public bool WriteBOM { get; set; }
         public bool DetectOnly { get; set; }
@@ -96,7 +97,8 @@ namespace UTFCast
             BrowseDirectoryCommand = new DelegateCommand(BrowseDirectory);
             StartStopCommand = new DelegateCommand(StartOrStop);
 
-            Directory = @"C:\Users\likeleon\Desktop\UTFCastTest";
+            Directory = string.Empty;
+            FilePattern = "*.*";
             Recursive = true;
             WriteBOM = true;
             DetectOnly = false;
@@ -163,7 +165,7 @@ namespace UTFCast
             WorkerOption workerOption = eventArgs.Argument as WorkerOption;
             
             SearchOption searchOption = workerOption.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            string[] allFiles = System.IO.Directory.GetFiles(workerOption.Directory, "*.*", searchOption);
+            string[] allFiles = System.IO.Directory.GetFiles(workerOption.Directory, FilePattern, searchOption);
             
             foreach (string filePath in allFiles)
             {
